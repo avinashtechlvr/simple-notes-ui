@@ -60,13 +60,15 @@ const Login = () => {
             // localStorage.setItem('token', response.data.access_token);
             setIsLoading(false);
 
-        } catch (error) {
+        } catch (error: unknown) {
             setIsLoading(false);
             let mes = `${error}`
-            if (error.response) {
-                let detail  = error.response.data;
-                console.log(detail)
-                mes = detail.detail;
+            if (axios.isAxiosError(error)) {
+                if (error.response) {
+                    let detail = error.response.data;
+                    console.log(detail)
+                    mes = detail.detail;
+                }
             }
             toast({ title: 'Login Error', description: mes })
             console.log(`Login Error: ${error}`);
@@ -86,12 +88,14 @@ const Login = () => {
                 description: 'Try logging in using registered email and password!!!'
             });
 
-        } catch (error) {
+        } catch (error: unknown) {
             let mes = `${error}`
-            if (error.response) {
-                let detail  = error.response.data;
-                console.log(detail)
-                mes = detail.detail;
+            if (axios.isAxiosError(error)) {
+                if (error.response) {
+                    let detail = error.response.data;
+                    console.log(detail)
+                    mes = detail.detail;
+                }
             }
             toast({ title: 'Register Error', description: mes })
             console.log(`Register Error: ${error}`);
