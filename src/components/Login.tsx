@@ -1,4 +1,6 @@
 import { useState } from "react"
+import axios from "axios";
+import qs from 'qs';
 
 import { useToast } from "@/components/ui/use-toast"
 import { Button } from "@/components/ui/button"
@@ -25,16 +27,75 @@ const Login = () => {
     const [registerName, setRegisterName] = useState('');
     const [registerEmail, setRegisterEmail] = useState('');
     const [registerPassword, setRegisterPassword] = useState('');
-
+    const [isLoading, setIsLoading] = useState(false);
     const { toast } = useToast();
 
-    function handleLogin() {
+    async function handleLogin() {
         // alert(`name: ${loginEmail} \n password: ${loginPassword}`);
-        localStorage.setItem('accessToken', 'true');
-        toast({title: 'Login Successfull', description: 'you have logged in successfully, Enjoy using the Simple Notes.'})
+        //localStorage.setItem('accessToken', 'true');
+        setIsLoading(true);
+        try {
+            const response = await axios.post('http://localhost:8000/user/login',
+                qs.stringify({ username: loginEmail, password: loginPassword }),
+                {
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    }
+                }
+            );
+            console.log('Response', response);
+            if (response.status != 200) {
+                throw new Error(response.data.detail);
+            }
+            toast({ title: 'Login Successful', description: 'You have been logged in successfully, Enjoy using the Simple Notes.' })
+
+            localStorage.setItem('token', response.data.access_token);
+            // TODO: created userLogin to store all the user details
+            // const isLoggedIn = await userLogin();
+            const isLoggedIn = true;
+            if (!isLoggedIn) {
+                setIsLoading(false);
+                throw new Error('Failed to fetch user data');
+            }
+
+            setIsLoading(false);
+
+        } catch (error) {
+            setIsLoading(false);
+            let mes = `${error}`
+            if (error.response) {
+                let detail  = error.response.data;
+                console.log(detail)
+                mes = detail.detail;
+            }
+            toast({ title: 'Login Error', description: mes })
+            console.log(`Login Error: ${error}`);
+        }
     }
-    function handleRegister() {
-        alert(`name: ${registerName} \n email: ${registerEmail} \n password: ${registerPassword}`);
+    async function handleRegister() {
+        // alert(`name: ${registerName} \n email: ${registerEmail} \n password: ${registerPassword}`);
+        try {
+            const response = await axios.post('http://localhost:8000/user/register',
+                { name: registerName, email: registerEmail, password: registerPassword });
+            console.log('Response', response);
+            setRegisterEmail('');
+            setRegisterName('');
+            setRegisterPassword('');
+            toast({
+                title: 'Registered Successfully',
+                description: 'Try logging in using registered email and password!!!'
+            });
+
+        } catch (error) {
+            let mes = `${error}`
+            if (error.response) {
+                let detail  = error.response.data;
+                console.log(detail)
+                mes = detail.detail;
+            }
+            toast({ title: 'Register Error', description: mes })
+            console.log(`Register Error: ${error}`);
+        }
     }
     return (
         <Tabs defaultValue="login" className="w-[400px]">
