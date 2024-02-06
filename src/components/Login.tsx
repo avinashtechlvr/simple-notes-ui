@@ -49,7 +49,7 @@ const Login = () => {
             }
             toast({ title: 'Login Successful', description: 'You have been logged in successfully, Enjoy using the Simple Notes.' })
 
-            localStorage.setItem('token', response.data.access_token);
+            localStorage.setItem('accessToken', response.data.access_token);
             // TODO: created userLogin to store all the user details
             // const isLoggedIn = await userLogin();
             const isLoggedIn = true;
@@ -57,7 +57,7 @@ const Login = () => {
                 setIsLoading(false);
                 throw new Error('Failed to fetch user data');
             }
-
+            // localStorage.setItem('token', response.data.access_token);
             setIsLoading(false);
 
         } catch (error) {
