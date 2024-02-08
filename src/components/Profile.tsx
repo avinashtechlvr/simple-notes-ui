@@ -6,6 +6,7 @@ import {
 import { CalendarIcon } from "@radix-ui/react-icons";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
+import { useUserStore } from "stores/useUserStore";
 import type { User } from "types";
 import { Button } from "./ui/button";
 import {
@@ -25,10 +26,12 @@ interface ProfileProps {
     user: User | null
 }
 
-const Profile: React.FC<ProfileProps> = ({ user }) => {
+const Profile = () => {
+    const { user, logOutUser } = useUserStore();
+    console.log("user", user);
     function handelLogout() {
         sessionStorage.removeItem('accessToken');
-        location.reload();
+        logOutUser();
     }
     const [isLogout, setIsLogout] = useState(false);
     return (
@@ -56,12 +59,12 @@ const Profile: React.FC<ProfileProps> = ({ user }) => {
                     </div> */}
                         <AlertDialog >
                             <AlertDialogTrigger asChild>
-                                <Button  className="mt-6" variant="destructive">Logout</Button>
+                                <Button className="mt-6" variant="destructive">Logout</Button>
                             </AlertDialogTrigger>
                             <AlertDialogContent>
                                 <AlertDialogHeader>
                                     <AlertDialogTitle>Are you sure?</AlertDialogTitle>
-                                   
+
                                 </AlertDialogHeader>
                                 <AlertDialogFooter>
                                     <AlertDialogCancel>Cancel</AlertDialogCancel>

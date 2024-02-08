@@ -7,47 +7,46 @@ import Dashboard from "./Dashboard";
 import { toast } from "./ui/use-toast";
 import { Progress } from "./ui/progress";
 import axiosInstance from "axiosInstance";
-import type { User } from "types";
-
+import { useUserStore } from "stores/useUserStore";
 
 const Home = () => {
 
-    const [loggedIn, setLoggedIn] = useState(false);
+    // const [loggedIn, setLoggedIn] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
     const [progressValue, setProgressValue] = useState(40);
-    const [user, setUser] = useState<User|null>(null);
+    const {user,saveUser, isUserLoggedIn,logInUser, logOutUser} = useUserStore();
     useEffect(() => {
         setIsLoading(true);
         setTimeout(() => setProgressValue(70), 2000);
         const isLoggedIn = sessionStorage.getItem('accessToken');
 
         if (isLoggedIn != null || isLoggedIn != undefined) {
-            setLoggedIn(true);
-            
+            logInUser();            
             setIsLoading(false);
         } else {
-            setLoggedIn(false);
+            logOutUser()
             setIsLoading(false);
         }
         //setIsLoading(false);
     }, []);
     useEffect(()=>{
         axiosInstance.get("user/getdetails").then((res) => {
-            setUser({id: res.data.id, name: res.data.name, email: res.data.email});
+            saveUser({id: res.data.id, name: res.data.name, email: res.data.email});
         }).catch((error)=>{
             
-            if( loggedIn == true && error.status !== 200 && error.response.data){
+            if( isUserLoggedIn == true && error.status !== 200 && error.response.data){
                toast({title: "Something Went wrong", description: error.response.data.detail});
-               setLoggedIn(false);
+               logOutUser();
             }
         });
     
-    },[loggedIn])
+    },[isUserLoggedIn]);
+
     function loginHandler() {
         toast({ title: 'Welcome!!!', description: 'Start adding notes by clicking add icon...' })
         const isLoggedIn = sessionStorage.getItem('accessToken');
         if (isLoggedIn != null || isLoggedIn != undefined) {
-            setLoggedIn(true);
+           logInUser();
         }
     }
     if (isLoading == true) {
@@ -62,9 +61,9 @@ const Home = () => {
             <div >
 
                 {
-                    loggedIn ?
+                    isUserLoggedIn ?
                         (
-                            <Dashboard user={user} />
+                            <Dashboard />
 
                         ) :
                         (

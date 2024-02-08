@@ -4,12 +4,9 @@ import type { User } from "types";
 import NotesList from "./NotesList";
 import NotesModal from "./NotesModal";
 
-import useNotes from "notes/useNotes";
+import useNotes from "hooks/useNotes";
 
-interface DashboardProps {
-    user: User | null
-}
-const Dashboard: React.FC<DashboardProps> = ({ user }) => {
+const Dashboard = () => {
     const { isModalOpen, openModal, closeModal, saveNote, deleteNote } = useNotes();
     const notesList = [
         {
@@ -74,7 +71,7 @@ const Dashboard: React.FC<DashboardProps> = ({ user }) => {
     }
     return (
         <div className="flex flex-col h-screen">
-            <NavBar user={user} />
+            <NavBar />
             <div className="flex-grow overflow-auto">
                 <NotesList notes={notesList} />
             </div>
