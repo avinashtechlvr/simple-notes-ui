@@ -52,7 +52,7 @@ const Login: React.FC<LoginProps> = ({ loginHandler }) => {
             }
             //toast({ title: 'Login Successful', description: 'You have been logged in successfully, Enjoy using the Simple Notes.' })
 
-            sessionStorage.setItem('accessToken', response.data.access_token);
+            localStorage.setItem('accessToken', response.data.access_token);
             const isLoggedIn = true;
             if (!isLoggedIn) {
                 setIsLoading(false);

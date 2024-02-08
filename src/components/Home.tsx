@@ -22,7 +22,7 @@ const Home = () => {
         setIsLoading(true);
         let isLoggedIn = null;
         setTimeout(() => {
-            isLoggedIn = sessionStorage.getItem('accessToken');
+            isLoggedIn = localStorage.getItem('accessToken');
             setProgressValue(70);
         }, 5000);
 
@@ -51,7 +51,7 @@ const Home = () => {
 
     function loginHandler() {
         toast({ title: 'Welcome!!!', description: 'Start adding notes by clicking add icon...' })
-        const isLoggedIn = sessionStorage.getItem('accessToken');
+        const isLoggedIn = localStorage.getItem('accessToken');
         if (isLoggedIn != null || isLoggedIn != undefined) {
             logInUser();
         }
