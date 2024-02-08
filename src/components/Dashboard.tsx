@@ -8,10 +8,11 @@ import { useNotesStore } from "stores/useNoteStore";
 import useNotes from "hooks/useNotes";
 
 const Dashboard = () => {
-    const { isModalOpen, openModal, closeModal,updateNote, saveNote, deleteNote } = useNotes();
+    const { isModalOpen, openModal, closeModal,updateNote, saveNote, deleteNote, note,setNote } = useNotes();
     const {notes} = useNotesStore();
 
     const onAddNote = () => {
+        setNote(undefined);
         openModal();
     }
     return (
@@ -29,6 +30,7 @@ const Dashboard = () => {
                 onSave={saveNote}
                 onUpdate={updateNote}
                 onDelete={deleteNote}
+                note={note}
             />
         </div>
     );

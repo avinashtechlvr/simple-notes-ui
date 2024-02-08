@@ -68,7 +68,7 @@ export const useNotesStore = create<NotesState>((set, get) => ({
         const res = await axiosInstance.post(`/notes/update`, {
             title: note.title,
             content: note.content,
-    
+            post_id: note.id
         });
         // set({ notes: res.data });
       } catch (error: unknown) { // Explicitly marking error as unknown is optional but can improve clarity

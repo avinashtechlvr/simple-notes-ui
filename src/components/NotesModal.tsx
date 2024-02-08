@@ -21,7 +21,6 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { Textarea } from './ui/textarea';
-import { useUserStore } from 'stores/useUserStore';
 
 interface NotesModalProps {
   isOpen: boolean;
@@ -58,9 +57,6 @@ const NotesModal: React.FC<NotesModalProps> = ({ isOpen, onClose, onSave,onUpdat
                 <Cross2Icon />
               </Button>
             </div>
-
-            {/* <CardTitle>Create project</CardTitle>
-            <CardDescription>Deploy your new project in one-click.</CardDescription> */}
           </CardHeader>
           <CardContent>
             <form>

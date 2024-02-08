@@ -3,6 +3,7 @@ import type { Note } from 'types';
 import { useNotesStore } from 'stores/useNoteStore';
 const useNotes = () => {
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+    const [note,setNote] = useState<Note | undefined>(undefined);
     const {saveNotes, fetchNotes, updateNotes, deleteNotes} = useNotesStore();
     const openModal = () => setIsModalOpen(true);
     const closeModal = () => setIsModalOpen(false);
@@ -23,7 +24,7 @@ const useNotes = () => {
         fetchNotes();
     };
 
-    return { isModalOpen, openModal, closeModal, saveNote, updateNote, deleteNote };
+    return { isModalOpen, openModal, closeModal, saveNote, updateNote, deleteNote, note,setNote };
 };
 
 export default useNotes;
