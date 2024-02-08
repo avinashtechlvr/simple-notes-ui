@@ -60,7 +60,7 @@ export const Notes: React.FC<NoteProps> = ({ note,setNote,openModal }) => {
         <div className="bg-gray-100 dark:bg-gray-700 cursor-pointer text-center shadow-md hover:shadow-lg p-4 rounded-lg w-full" onClick={handleOpenPopup}>
 
 
-          <h1 className="font-bold dark:text-gray-300 text-xl  text-[#ffab4a] flex items-start justify-start mt-4">
+          <h1 className=" truncate font-bold dark:text-gray-300 text-xl  text-[#ffab4a] flex items-start justify-start mt-4">
             <BiNotepad className="ml-2 mt-1 mr-3 text-[#ffab4a]" />
             {note.title}
           </h1>

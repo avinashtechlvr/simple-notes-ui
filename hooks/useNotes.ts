@@ -10,11 +10,13 @@ const useNotes = () => {
     const updateNote = async (note: Note) => {
         await updateNotes(note);
         fetchNotes();
+        setNote(undefined);
         closeModal();
     };
     const saveNote = async (note: Note) => {
         await saveNotes(note);
         fetchNotes();
+        setNote(undefined);
         closeModal();
     };
 

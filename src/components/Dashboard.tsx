@@ -12,7 +12,7 @@ const Dashboard = () => {
     const {notes} = useNotesStore();
 
     const onAddNote = () => {
-        setNote(undefined);
+        setNote(note);
         openModal();
     }
     return (

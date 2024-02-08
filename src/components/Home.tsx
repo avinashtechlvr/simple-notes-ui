@@ -24,7 +24,7 @@ const Home = () => {
         setTimeout(() => {
             isLoggedIn = sessionStorage.getItem('accessToken');
             setProgressValue(70);
-        }, 3000);
+        }, 5000);
 
         if (isLoggedIn != null || isLoggedIn != undefined) {
             logInUser();
