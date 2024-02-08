@@ -1,7 +1,7 @@
 import { ModeToggle } from "./ModeToggle";
 import { Input } from "./ui/input";
 import Profile from "./Profile";
-import type { User } from "type";
+import type { User } from "types";
 interface NavBarProps{
     user: User | null
 }

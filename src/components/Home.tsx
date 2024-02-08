@@ -7,7 +7,7 @@ import Dashboard from "./Dashboard";
 import { toast } from "./ui/use-toast";
 import { Progress } from "./ui/progress";
 import axiosInstance from "axiosInstance";
-import type { User } from "type";
+import type { User } from "types";
 
 
 const Home = () => {
