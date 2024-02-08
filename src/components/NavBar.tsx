@@ -2,10 +2,8 @@ import { ModeToggle } from "./ModeToggle";
 import { Input } from "./ui/input";
 import Profile from "./Profile";
 import type { User } from "types";
-interface NavBarProps{
-    user: User | null
-}
-const NavBar:React.FC<NavBarProps> = ({user}) => {
+
+const NavBar = () => {
     return (
         <div className="grid grid-cols-4 m-4">
             <h1 className=" col-span-1 text-3xl font-bold"> Simple Notes</h1>
@@ -20,7 +18,7 @@ const NavBar:React.FC<NavBarProps> = ({user}) => {
                         </div>
 
 
-                        <Profile user={user} />
+                        <Profile />
 
                     </div>
                 </div>
