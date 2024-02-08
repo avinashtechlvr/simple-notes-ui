@@ -1,11 +1,11 @@
 import axios from "axios";
 
 const axiosInstance = axios.create({
-    baseURL: 'http://localhost:8000', 
+    baseURL: 'https://simplenotes-rc6n6dj1.b4a.run/', 
   });
   
   axiosInstance.interceptors.request.use(config => {
-    const token = localStorage.getItem('token');
+    const token = sessionStorage.getItem('accessToken');
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
@@ -13,4 +13,5 @@ const axiosInstance = axios.create({
   }, error => {
     return Promise.reject(error);
   });
-  
+
+  export default axiosInstance;
