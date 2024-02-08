@@ -51,4 +51,4 @@ The front end of Simple Notes is crafted using Astro.js integrated with React.js
   - qs
 
 ## Contributors
-- 👤 [Your Name](https://github.com/avinashtechlvr)
+- 👤 [Avinash Chodavarapu](https://github.com/avinashtechlvr)
