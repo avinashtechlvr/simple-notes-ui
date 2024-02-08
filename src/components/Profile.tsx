@@ -6,7 +6,7 @@ import {
 import { CalendarIcon } from "@radix-ui/react-icons";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
-import type { User } from "type";
+import type { User } from "types";
 import { Button } from "./ui/button";
 import {
     AlertDialog,
