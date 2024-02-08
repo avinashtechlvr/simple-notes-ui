@@ -1,54 +1,54 @@
-# Astro Starter Kit: Basics
+# Simple Notes
 
-```sh
-npm create astro@latest -- --template basics
-```
+## Introduction
+Simple Notes is a web application with a minimalistic user interface, designed for ease of use and functionality. Users can log in to the application to add, update, and delete their notes, making it an ideal tool for managing personal or work-related notes efficiently.
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/withastro/astro/tree/latest/examples/basics)
-[![Open with CodeSandbox](https://assets.codesandbox.io/github/button-edit-lime.svg)](https://codesandbox.io/p/sandbox/github/withastro/astro/tree/latest/examples/basics)
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/withastro/astro?devcontainer_path=.devcontainer/basics/devcontainer.json)
+## Tech Stack
+The front end of Simple Notes is crafted using Astro.js integrated with React.js, styled with Tailwind CSS for a modern and responsive design. The back end is powered by FastAPI, providing a high-performance, easy-to-use framework for building APIs with Python.
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+## Table of Contents
+- [Installation](#installation)
+- [Usage](#usage)
+- [Features](#features)
+- [Dependencies](#dependencies)
+- [Contributors](#contributors)
 
-![just-the-basics](https://github.com/withastro/astro/assets/2244813/a0a5533c-a856-4198-8470-2d67b1d7c554)
+## Installation
+🔧 **Clone the repository:**
+   ```bash
+   git clone https://github.com/avinashtechlvr/simple-notes-ui/
+   cd simple-notes
+   ```
 
-## 🚀 Project Structure
+📦 **Install dependencies:**
+   - For the front end:
+     ```bash
+     cd frontend
+     npm install
+     ```
+▶️ **Start the server:**
+   - For the front end:
+     ```bash
+     npm run dev
+     ```
+## Usage
+- 🌐 Access the web application through your browser at `http://localhost:3000`.
+- 🔐 Log in or sign up to start managing your notes.
+- 📝 Create, view, edit, or delete notes as needed.
 
-Inside of your Astro project, you'll see the following folders and files:
+## Features
+- 🔒 **User Authentication**: Secure login and signup features to keep your notes private.
+- 📋 **CRUD Operations**: Create, Read, Update, and Delete notes effortlessly.
+- 🧘 **Minimalistic UI**: Focus on what's important with a clutter-free interface.
+- 📱 **Responsive Design**: Enjoy a seamless experience on both desktop and mobile devices.
 
-```text
-/
-├── public/
-│   └── favicon.svg
-├── src/
-│   ├── components/
-│   │   └── Card.astro
-│   ├── layouts/
-│   │   └── Layout.astro
-│   └── pages/
-│       └── index.astro
-└── package.json
-```
+## Dependencies
+- **Frontend**:
+  - Astro.js
+  - React.js
+  - Tailwind CSS
+  - Axios
+  - qs
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
-
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
-
-Any static assets, like images, can be placed in the `public/` directory.
-
-## 🧞 Commands
-
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+## Contributors
+- 👤 [Your Name](https://github.com/avinashtechlvr)
