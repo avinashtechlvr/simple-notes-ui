@@ -39,6 +39,8 @@ const NotesModal: React.FC<NotesModalProps> = ({ isOpen, onClose, onSave,onUpdat
     if (!note) {
       const newNote = { id: noteId, title: noteTitle, content: noteContent, created_at: "", };
       onSave(newNote);
+      setNoteContent("");
+      setNoteTitle("");
     } else {
       onUpdate({...note, title: noteTitle, content: noteContent});
     }
