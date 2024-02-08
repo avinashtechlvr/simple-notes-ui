@@ -38,7 +38,7 @@ const Login: React.FC<LoginProps> = ({ loginHandler }) => {
     async function handleLogin() {
         setIsLoading(true);
         try {
-            const response = await axios.post('http://localhost:8000/user/login',
+            const response = await axios.post('https://simplenotes-rc6n6dj1.b4a.run/user/login',
                 qs.stringify({ username: loginEmail, password: loginPassword }),
                 {
                     headers: {
@@ -79,7 +79,7 @@ const Login: React.FC<LoginProps> = ({ loginHandler }) => {
     }
     async function handleRegister() {
         try {
-            const response = await axios.post('http://localhost:8000/user/register',
+            const response = await axios.post('https://simplenotes-rc6n6dj1.b4a.run/user/register',
                 { name: registerName, email: registerEmail, password: registerPassword });
             console.log('Response', response);
             setRegisterEmail('');
