@@ -9,7 +9,7 @@ const useNotes = () => {
     const closeModal = () => setIsModalOpen(false);
 
     const saveNote = (note: Note) => {
-        setNotes((prevNotes) => [...prevNotes, note]);
+        // setNotes((prevNotes) => [...prevNotes, note]);
         closeModal();
     };
 

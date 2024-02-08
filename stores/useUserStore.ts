@@ -1,4 +1,4 @@
-import create from "zustand";
+import { create } from "zustand";
 import type { User } from "types";
 
 interface UserState {
@@ -13,5 +13,8 @@ export const useUserStore = create<UserState>((set) => ({
     isUserLoggedIn: false,
     saveUser: (user: User) => set({ user }),
     logInUser: () => set({ isUserLoggedIn: true }),
-    logOutUser: () => set({ isUserLoggedIn: false }),
+    logOutUser: () => { 
+        sessionStorage.removeItem('accessToken');
+        set({ isUserLoggedIn: false });
+    },
 }))

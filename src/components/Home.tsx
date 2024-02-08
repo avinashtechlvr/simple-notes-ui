@@ -17,8 +17,11 @@ const Home = () => {
     const {user,saveUser, isUserLoggedIn,logInUser, logOutUser} = useUserStore();
     useEffect(() => {
         setIsLoading(true);
-        setTimeout(() => setProgressValue(70), 2000);
-        const isLoggedIn = sessionStorage.getItem('accessToken');
+        let isLoggedIn = null;
+        setTimeout(() => {
+            isLoggedIn = sessionStorage.getItem('accessToken');
+            setProgressValue(70);
+        }, 3000);
 
         if (isLoggedIn != null || isLoggedIn != undefined) {
             logInUser();            
