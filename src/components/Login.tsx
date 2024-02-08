@@ -46,7 +46,7 @@ const Login: React.FC<LoginProps> = ({ loginHandler }) => {
                     }
                 }
             );
-            console.log('Response', response);
+            // console.log('Response', response);
             if (response.status != 200) {
                 throw new Error(response.data.detail);
             }
@@ -69,7 +69,7 @@ const Login: React.FC<LoginProps> = ({ loginHandler }) => {
             if (axios.isAxiosError(error)) {
                 if (error.response) {
                     let detail = error.response.data;
-                    console.log(detail)
+                    // console.log(detail)
                     mes = detail.detail;
                 }
             }
@@ -81,7 +81,7 @@ const Login: React.FC<LoginProps> = ({ loginHandler }) => {
         try {
             const response = await axios.post('https://simplenotes-rc6n6dj1.b4a.run/user/register',
                 { name: registerName, email: registerEmail, password: registerPassword });
-            console.log('Response', response);
+            // console.log('Response', response);
             setRegisterEmail('');
             setRegisterName('');
             setRegisterPassword('');
@@ -95,7 +95,7 @@ const Login: React.FC<LoginProps> = ({ loginHandler }) => {
             if (axios.isAxiosError(error)) {
                 if (error.response) {
                     let detail = error.response.data;
-                    console.log(detail)
+                    // console.log(detail)
                     mes = detail.detail;
                 }
             }

@@ -27,7 +27,7 @@ interface ProfileProps {
 
 const Profile = () => {
     const { user, logOutUser } = useUserStore();
-    console.log("user", user);
+    const nameFirstLetter = user?.name.charAt(0).toUpperCase();
     function handelLogout() {
         logOutUser();
     }
@@ -38,8 +38,8 @@ const Profile = () => {
             <HoverCard>
                 <HoverCardTrigger>
                     <Avatar>
-                        <AvatarImage src="https://github.com/shadcn.png" />
-                        <AvatarFallback>CN</AvatarFallback>
+                        {/* <AvatarImage src="https://github.com/shadcn.png" /> */}
+                        <AvatarFallback>{nameFirstLetter}</AvatarFallback>
                     </Avatar>
 
                 </HoverCardTrigger>
