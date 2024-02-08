@@ -14,7 +14,7 @@ export const useUserStore = create<UserState>((set) => ({
     saveUser: (user: User) => set({ user }),
     logInUser: () => set({ isUserLoggedIn: true }),
     logOutUser: () => { 
-        sessionStorage.removeItem('accessToken');
+        localStorage.removeItem('accessToken');
         set({ isUserLoggedIn: false });
     },
 }))
