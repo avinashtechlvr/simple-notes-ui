@@ -6,20 +6,20 @@ const useNotes = () => {
     const {saveNotes, fetchNotes, updateNotes, deleteNotes} = useNotesStore();
     const openModal = () => setIsModalOpen(true);
     const closeModal = () => setIsModalOpen(false);
-    const updateNote = (note: Note) => {
-        updateNotes(note);
+    const updateNote = async (note: Note) => {
+        await updateNotes(note);
         fetchNotes();
         closeModal();
     };
-    const saveNote = (note: Note) => {
-        saveNotes(note);
+    const saveNote = async (note: Note) => {
+        await saveNotes(note);
         fetchNotes();
         closeModal();
     };
 
-    const deleteNote = (noteId: number) => {
+    const deleteNote = async (noteId: number) => {
         // setNotes((prevNotes) => prevNotes.filter(note => note.id !== noteId));
-        deleteNotes(noteId);
+        await deleteNotes(noteId);
         fetchNotes();
     };
 
