@@ -32,12 +32,13 @@ const Profile = () => {
         logOutUser();
     }
     const [isLogout, setIsLogout] = useState(false);
+    const [open, setOpen] = useState(false);
     return (
         <>
 
-            <HoverCard>
-                <HoverCardTrigger>
-                    <Avatar>
+            <HoverCard open={open} onOpenChange={setOpen}>
+                <HoverCardTrigger  >
+                    <Avatar onClick={() => setOpen(!open)}>
                         {/* <AvatarImage src="https://github.com/shadcn.png" /> */}
                         <AvatarFallback>{nameFirstLetter}</AvatarFallback>
                     </Avatar>
