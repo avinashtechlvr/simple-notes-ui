@@ -5,47 +5,48 @@ import { Toaster } from "@/components/ui/toaster"
 import Login from "./Login";
 import Dashboard from "./Dashboard";
 import { toast } from "./ui/use-toast";
-import { Progress } from "./ui/progress";
 import axiosInstance from "axiosInstance";
 
+import LoadingModal from "./Loading";
 import { useUserStore } from "stores/useUserStore";
 import { useNotesStore } from "stores/useNoteStore";
-
+import { useLoadingStore } from "stores/useLoadingStore";
 const Home = () => {
-
+    const { toggleLoading, isLoading } = useLoadingStore();
     // const [loggedIn, setLoggedIn] = useState(false);
-    const [isLoading, setIsLoading] = useState(true);
-    const [progressValue, setProgressValue] = useState(40);
+    // const [isLoading, setIsLoading] = useState(true);
     const { user, saveUser, isUserLoggedIn, logInUser, logOutUser } = useUserStore();
     const { fetchNotes } = useNotesStore();
     useEffect(() => {
-        setIsLoading(true);
+        // toggleLoading(true);
         let isLoggedIn = null;
-        setTimeout(() => {
-            isLoggedIn = localStorage.getItem('accessToken');
-            setProgressValue(70);
-        }, 5000);
-
+        toggleLoading(true)
+        isLoggedIn = localStorage.getItem('accessToken');
         if (isLoggedIn != null || isLoggedIn != undefined) {
             logInUser();
-            setIsLoading(false);
+            toggleLoading(false);
         } else {
             logOutUser()
-            setIsLoading(false);
+            toggleLoading(false);
         }
         //setIsLoading(false);
     }, []);
     useEffect(() => {
-        axiosInstance.get("user/getdetails").then((res) => {
-            saveUser({ id: res.data.id, name: res.data.name, email: res.data.email });
-            fetchNotes();
-        }).catch((error) => {
+        if (isUserLoggedIn) {
+            toggleLoading(true);
+            axiosInstance.get("user/getdetails").then(async (res) => {
+                saveUser({ id: res.data.id, name: res.data.name, email: res.data.email });
+                await fetchNotes();
+                toggleLoading(false);
+            }).catch((error) => {
+                toggleLoading(false);
+                if (isUserLoggedIn == true && error.status !== 200 && error.response.data) {
+                    toast({ title: "Something Went wrong", description: error.response.data.detail });
+                    logOutUser();
+                }
+            });
+        }
 
-            if (isUserLoggedIn == true && error.status !== 200 && error.response.data) {
-                toast({ title: "Something Went wrong", description: error.response.data.detail });
-                logOutUser();
-            }
-        });
 
     }, [isUserLoggedIn]);
 
@@ -56,38 +57,33 @@ const Home = () => {
             logInUser();
         }
     }
-    if (isLoading == true) {
-        return <div className="grid grid-cols-1 justify-items-center ">
-            <div className="col-span-1">
-                <Progress value={progressValue} />
+
+    return (
+        <div >
+            {
+                isLoading ?? <LoadingModal />
+            }
+            {
+                isUserLoggedIn ?
+                    (
+                        <Dashboard />
+
+                    ) :
+                    (
+                        <div className="mt-20 flex justify-center items-center">
+                            <Login loginHandler={loginHandler} />
+                        </div>
+                    )
+            }
+
+            <div>
+                <Toaster />
+
             </div>
-        </div>
-    }
-    else {
-        return (
-            <div >
 
-                {
-                    isUserLoggedIn ?
-                        (
-                            <Dashboard />
+        </div >
+    );
 
-                        ) :
-                        (
-                            <div className="mt-20 flex justify-center items-center">
-                                <Login loginHandler={loginHandler} />
-                            </div>
-                        )
-                }
-
-                <div>
-                    <Toaster />
-
-                </div>
-
-            </div >
-        );
-    }
 
 }
 

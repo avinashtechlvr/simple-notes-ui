@@ -18,13 +18,16 @@ export const useNotesStore = create<NotesState>((set, get) => ({
   fetchNotes: async () => {
     // Access user store within the action
     const { user, logOutUser } = useUserStore.getState();
-    
+
     if (user) {
       try {
+        // toggleLoading(true);
         const res = await axiosInstance.get(`/users/${user.id}/notes`);
         set({ notes: res.data });
+        // toggleLoading(false);
       } catch (error: unknown) { // Explicitly marking error as unknown is optional but can improve clarity
         if (axios.isAxiosError(error)) { // Using Axios's built-in type guard
+          // toggleLoading(false);
           if (error.response && error.response.status !== 200) {
             toast({ title: "Something Went wrong", description: error.response.data.detail });
             logOutUser();
@@ -38,15 +41,15 @@ export const useNotesStore = create<NotesState>((set, get) => ({
   saveNotes: async (note) => {
     // Implement saving logic here
     const { user, logOutUser } = useUserStore.getState();
-    
+
     if (user) {
       try {
         const res = await axiosInstance.post(`/notes/create`, {
 
-            title: note.title,
-            content: note.content,
-            user_id: user.id
-    
+          title: note.title,
+          content: note.content,
+          user_id: user.id
+
         });;
         set({ notes: res.data });
       } catch (error: unknown) { // Explicitly marking error as unknown is optional but can improve clarity
@@ -66,9 +69,9 @@ export const useNotesStore = create<NotesState>((set, get) => ({
     if (user) {
       try {
         const res = await axiosInstance.post(`/notes/update`, {
-            title: note.title,
-            content: note.content,
-            post_id: note.id
+          title: note.title,
+          content: note.content,
+          post_id: note.id
         });
         // set({ notes: res.data });
       } catch (error: unknown) { // Explicitly marking error as unknown is optional but can improve clarity

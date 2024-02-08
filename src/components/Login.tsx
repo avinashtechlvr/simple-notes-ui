@@ -21,6 +21,8 @@ import {
     TabsList,
     TabsTrigger,
 } from "@/components/ui/tabs";
+import { useLoadingStore } from "stores/useLoadingStore";
+import LoadingModal from "./Loading";
 
 interface LoginProps {
     loginHandler: () => void
@@ -31,12 +33,12 @@ const Login: React.FC<LoginProps> = ({ loginHandler }) => {
     const [registerName, setRegisterName] = useState('');
     const [registerEmail, setRegisterEmail] = useState('');
     const [registerPassword, setRegisterPassword] = useState('');
-    const [isLoading, setIsLoading] = useState(false);
-    const [progressValue, setProgressValue] = useState(30);
+    // const [isLoading, setIsLoading] = useState(false);
+    const {isLoading, toggleLoading} = useLoadingStore();
     const { toast } = useToast();
 
     async function handleLogin() {
-        setIsLoading(true);
+        toggleLoading(true);
         try {
             const response = await axios.post('https://simplenotes-rc6n6dj1.b4a.run/user/login',
                 qs.stringify({ username: loginEmail, password: loginPassword }),
@@ -55,16 +57,17 @@ const Login: React.FC<LoginProps> = ({ loginHandler }) => {
             localStorage.setItem('accessToken', response.data.access_token);
             const isLoggedIn = true;
             if (!isLoggedIn) {
-                setIsLoading(false);
+                toggleLoading(false);
                 throw new Error('Failed to fetch user data');
             }
-            setTimeout(() => setProgressValue(70), 3000);
-            setIsLoading(false);
+            // TODO : set loading screen
+            // setTimeout(() => setProgressValue(70), 3000);
+            toggleLoading(false);
             loginHandler();
 
 
         } catch (error: unknown) {
-            setIsLoading(false);
+            toggleLoading(false);
             let mes = `${error}`
             if (axios.isAxiosError(error)) {
                 if (error.response) {
@@ -104,7 +107,7 @@ const Login: React.FC<LoginProps> = ({ loginHandler }) => {
         }
     }
     if (isLoading) {
-        return <Progress value={progressValue}  className="w-[60%] items-center"/>
+        return <LoadingModal />
     } else {
         return (
             <Tabs defaultValue="login" className="w-[400px]">
