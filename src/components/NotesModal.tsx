@@ -21,16 +21,18 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { Textarea } from './ui/textarea';
+import { useUserStore } from 'stores/useUserStore';
 
 interface NotesModalProps {
   isOpen: boolean;
   onClose: () => void;
   onSave: (note: Note) => void;
+  onUpdate: (note: Note) => void
   onDelete: (noteId: number) => void;
   note?: Note;
 }
 
-const NotesModal: React.FC<NotesModalProps> = ({ isOpen, onClose, onSave, onDelete, note }) => {
+const NotesModal: React.FC<NotesModalProps> = ({ isOpen, onClose, onSave,onUpdate, onDelete, note }) => {
   const [noteContent, setNoteContent] = useState(note?.content || '');
   const [noteTitle, setNoteTitle] = useState(note?.title || '');
   const [noteId, setNoteId] = useState(note?.id || 0);

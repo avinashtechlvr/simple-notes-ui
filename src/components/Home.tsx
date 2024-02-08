@@ -7,14 +7,17 @@ import Dashboard from "./Dashboard";
 import { toast } from "./ui/use-toast";
 import { Progress } from "./ui/progress";
 import axiosInstance from "axiosInstance";
+
 import { useUserStore } from "stores/useUserStore";
+import { useNotesStore } from "stores/useNoteStore";
 
 const Home = () => {
 
     // const [loggedIn, setLoggedIn] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
     const [progressValue, setProgressValue] = useState(40);
-    const {user,saveUser, isUserLoggedIn,logInUser, logOutUser} = useUserStore();
+    const { user, saveUser, isUserLoggedIn, logInUser, logOutUser } = useUserStore();
+    const { fetchNotes } = useNotesStore();
     useEffect(() => {
         setIsLoading(true);
         let isLoggedIn = null;
@@ -24,7 +27,7 @@ const Home = () => {
         }, 3000);
 
         if (isLoggedIn != null || isLoggedIn != undefined) {
-            logInUser();            
+            logInUser();
             setIsLoading(false);
         } else {
             logOutUser()
@@ -32,24 +35,25 @@ const Home = () => {
         }
         //setIsLoading(false);
     }, []);
-    useEffect(()=>{
+    useEffect(() => {
         axiosInstance.get("user/getdetails").then((res) => {
-            saveUser({id: res.data.id, name: res.data.name, email: res.data.email});
-        }).catch((error)=>{
-            
-            if( isUserLoggedIn == true && error.status !== 200 && error.response.data){
-               toast({title: "Something Went wrong", description: error.response.data.detail});
-               logOutUser();
+            saveUser({ id: res.data.id, name: res.data.name, email: res.data.email });
+            fetchNotes();
+        }).catch((error) => {
+
+            if (isUserLoggedIn == true && error.status !== 200 && error.response.data) {
+                toast({ title: "Something Went wrong", description: error.response.data.detail });
+                logOutUser();
             }
         });
-    
-    },[isUserLoggedIn]);
+
+    }, [isUserLoggedIn]);
 
     function loginHandler() {
         toast({ title: 'Welcome!!!', description: 'Start adding notes by clicking add icon...' })
         const isLoggedIn = sessionStorage.getItem('accessToken');
         if (isLoggedIn != null || isLoggedIn != undefined) {
-           logInUser();
+            logInUser();
         }
     }
     if (isLoading == true) {
