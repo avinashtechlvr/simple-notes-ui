@@ -16,9 +16,9 @@ const Home = () => {
     // const [loggedIn, setLoggedIn] = useState(false);
     // const [isLoading, setIsLoading] = useState(true);
     const { user, saveUser, isUserLoggedIn, logInUser, logOutUser } = useUserStore();
-    const { fetchNotes } = useNotesStore();
+    const { fetchNotes, searchString } = useNotesStore();
     useEffect(() => {
-        // toggleLoading(true);
+        toggleLoading(true);
         let isLoggedIn = null;
         toggleLoading(true)
         isLoggedIn = localStorage.getItem('accessToken');
@@ -29,14 +29,14 @@ const Home = () => {
             logOutUser()
             toggleLoading(false);
         }
-        //setIsLoading(false);
+        // setIsLoading(false);
     }, []);
     useEffect(() => {
         if (isUserLoggedIn) {
             toggleLoading(true);
             axiosInstance.get("user/getdetails").then(async (res) => {
                 saveUser({ id: res.data.id, name: res.data.name, email: res.data.email });
-                await fetchNotes();
+                await fetchNotes(searchString);
                 toggleLoading(false);
             }).catch((error) => {
                 toggleLoading(false);
@@ -61,7 +61,7 @@ const Home = () => {
     return (
         <div >
             {
-                isLoading ?? <LoadingModal />
+                isLoading && <LoadingModal />
             }
             {
                 isUserLoggedIn ?

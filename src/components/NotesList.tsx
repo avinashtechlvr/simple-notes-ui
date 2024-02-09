@@ -35,7 +35,7 @@ const NotesList: React.FC<NotesListProps> = ({ notes }) => {
                             )
                         }) : (
                             <div className="flex justify-center items-center font-3xl font-bold">
-                                <h1>Add Some Note....</h1>
+                                <h1 className="ml-5 font-bold font-3xl" >No note found...</h1>
                             </div>
                         )
                     }
