@@ -7,7 +7,10 @@ import { toast } from "@/components/ui/use-toast";
 
 interface NotesState {
   notes: Note[];
-  fetchNotes: () => Promise<void>;
+  notesFilteredList: Note[];
+  searchString: string;
+  setSearchString: (query: string) => void;
+  fetchNotes: (query: string) => Promise<void>;
   saveNotes: (note: Note) => Promise<void>;
   updateNotes: (note: Note) => Promise<void>;
   deleteNotes: (noteId: number) => Promise<void>;
@@ -15,15 +18,25 @@ interface NotesState {
 
 export const useNotesStore = create<NotesState>((set, get) => ({
   notes: [],
-  fetchNotes: async () => {
+  notesFilteredList: [],
+  searchString: "",
+  setSearchString: (query) =>  set({searchString: query}),
+  fetchNotes: async (query: string) => {
     // Access user store within the action
     const { user, logOutUser } = useUserStore.getState();
 
     if (user) {
+
       try {
         // toggleLoading(true);
         const res = await axiosInstance.get(`/users/${user.id}/notes`);
         set({ notes: res.data });
+        if (query == "") {
+          set({ notesFilteredList: res.data});
+        } else {
+          const filtered = res.data.filter((ele: Note) => ele.title.toLowerCase().includes(query.toLowerCase()));
+          set({notesFilteredList : filtered})
+        }
         // toggleLoading(false);
       } catch (error: unknown) { // Explicitly marking error as unknown is optional but can improve clarity
         if (axios.isAxiosError(error)) { // Using Axios's built-in type guard
@@ -36,6 +49,7 @@ export const useNotesStore = create<NotesState>((set, get) => ({
           console.error("An unexpected error occurred:", error);
         }
       }
+     
     }
   },
   saveNotes: async (note) => {

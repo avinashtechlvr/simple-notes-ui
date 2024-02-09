@@ -16,7 +16,8 @@ import { Button } from './ui/button';
 import type { Note } from 'types';
 import useNotes from 'hooks/useNotes';
 import NotesModal from "./NotesModal";
-
+import { useLoadingStore } from 'stores/useLoadingStore';
+import LoadingModal from './Loading';
 interface NoteProps {
   note: Note;
   openModal: () => void;
@@ -25,9 +26,12 @@ interface NoteProps {
 
 export const Notes: React.FC<NoteProps> = ({ note,setNote,openModal }) => {
   const { deleteNote} = useNotes();
+  const {isLoading, toggleLoading} = useLoadingStore();
   function handleDelete(e: React.MouseEvent<HTMLButtonElement>) {
     e.stopPropagation();
+    toggleLoading(true)
     deleteNote(note.id);
+    toggleLoading(false);
   }
 
 
@@ -38,6 +42,9 @@ export const Notes: React.FC<NoteProps> = ({ note,setNote,openModal }) => {
 
   return (
     <>
+      {
+        isLoading && <LoadingModal />
+      }
       <div className=" relative p-2 transform transition duration-500 hover:scale-110 w-80 m-4">
 
         <AlertDialog >

@@ -6,11 +6,12 @@ import NotesModal from "./NotesModal";
 
 import { useNotesStore } from "stores/useNoteStore";
 import useNotes from "hooks/useNotes";
-
+import LoadingModal from "./Loading";
+import { useLoadingStore } from "stores/useLoadingStore";
 const Dashboard = () => {
-    const { isModalOpen, openModal, closeModal,updateNote, saveNote, deleteNote, note,setNote } = useNotes();
-    const {notes} = useNotesStore();
-
+    const { isModalOpen, openModal, closeModal, updateNote, saveNote, deleteNote, note, setNote } = useNotes();
+    const { notesFilteredList } = useNotesStore();
+    const { isLoading } = useLoadingStore();
     const onAddNote = () => {
         setNote(note);
         openModal();
@@ -19,7 +20,7 @@ const Dashboard = () => {
         <div className="flex flex-col h-screen">
             <NavBar />
             <div className="flex-grow overflow-auto">
-                <NotesList notes={notes} />
+                <NotesList notes={notesFilteredList} />
             </div>
             <div className="grid m-4 justify-items-end">
                 <AddNote onClick={onAddNote} />
@@ -32,6 +33,9 @@ const Dashboard = () => {
                 onDelete={deleteNote}
                 note={note}
             />
+            {
+                isLoading ?? <LoadingModal />
+            }
         </div>
     );
 }

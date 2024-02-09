@@ -21,6 +21,8 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { Textarea } from './ui/textarea';
+import { useLoadingStore } from 'stores/useLoadingStore';
+import LoadingModal from './Loading';
 
 interface NotesModalProps {
   isOpen: boolean;
@@ -31,18 +33,20 @@ interface NotesModalProps {
   note?: Note;
 }
 
-const NotesModal: React.FC<NotesModalProps> = ({ isOpen, onClose, onSave,onUpdate, onDelete, note }) => {
+const NotesModal: React.FC<NotesModalProps> = ({ isOpen, onClose, onSave, onUpdate, onDelete, note }) => {
   const [noteContent, setNoteContent] = useState(note?.content || '');
   const [noteTitle, setNoteTitle] = useState(note?.title || '');
   const [noteId, setNoteId] = useState(note?.id || 0);
+  const {isLoading} = useLoadingStore();
   const handleSave = () => {
     if (!note) {
       const newNote = { id: noteId, title: noteTitle, content: noteContent, created_at: "", };
       onSave(newNote);
+
       setNoteContent("");
       setNoteTitle("");
     } else {
-      onUpdate({...note, title: noteTitle, content: noteContent});
+      onUpdate({ ...note, title: noteTitle, content: noteContent });
     }
   };
 
@@ -50,41 +54,47 @@ const NotesModal: React.FC<NotesModalProps> = ({ isOpen, onClose, onSave,onUpdat
 
   return (
     // Modal structure remains the same
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
-      <div className="p-4 rounded-lg space-y-4">
-        <Card className="w-[350px] relative">
-          <CardHeader>
-            <div className='absolute top-2 right-2 m-2 text-red-500 hover:text-red-700 transition-colors duration-300'>
-              <Button variant="ghost" onClick={() => onClose()}>
-                <Cross2Icon />
-              </Button>
-            </div>
-          </CardHeader>
-          <CardContent>
-            <form>
-              <div className="grid w-full items-center gap-4 mt-4">
-                <div className="flex flex-col space-y-1.5">
-                  <Input placeholder='Enter title' id="title" value={noteTitle} onChange={(e) => setNoteTitle(e.target.value)} />
-                </div>
-                <div className="flex flex-col space-y-1.5">
-                  <Textarea placeholder='Enter content' id='content' value={noteContent} onChange={(e) => setNoteContent(e.target.value)} />
-                </div>
-              </div>
-            </form>
-          </CardContent>
-          <CardFooter className="flex justify-between">
-            {/* <Button variant="outline" onClick={() => onClose()}>Cancel</Button> */}
-            <div className='mt-6'>
-              <div className='absolute bottom-2 right-4 m-2'>
+    <>
+      {
+        isLoading ? <LoadingModal />
+          :
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
+            <div className="p-4 rounded-lg space-y-4">
+              <Card className="w-[350px] relative">
+                <CardHeader>
+                  <div className='absolute top-2 right-2 m-2 text-red-500 hover:text-red-700 transition-colors duration-300'>
+                    <Button variant="ghost" onClick={() => onClose()}>
+                      <Cross2Icon />
+                    </Button>
+                  </div>
+                </CardHeader>
+                <CardContent>
+                  <form>
+                    <div className="grid w-full items-center gap-4 mt-4">
+                      <div className="flex flex-col space-y-1.5">
+                        <Input placeholder='Enter title' id="title" value={noteTitle} onChange={(e) => setNoteTitle(e.target.value)} />
+                      </div>
+                      <div className="flex flex-col space-y-1.5">
+                        <Textarea placeholder='Enter content' id='content' value={noteContent} onChange={(e) => setNoteContent(e.target.value)} />
+                      </div>
+                    </div>
+                  </form>
+                </CardContent>
+                <CardFooter className="flex justify-between">
+                  {/* <Button variant="outline" onClick={() => onClose()}>Cancel</Button> */}
+                  <div className='mt-6'>
+                    <div className='absolute bottom-2 right-4 m-2'>
 
-                <Button onClick={handleSave}>Save</Button>
-              </div>
-            </div>
+                      <Button onClick={handleSave}>Save</Button>
+                    </div>
+                  </div>
 
-          </CardFooter>
-        </Card>
-      </div>
-    </div>
+                </CardFooter>
+              </Card>
+            </div>
+          </div>
+      }
+    </>
 
   );
 };
